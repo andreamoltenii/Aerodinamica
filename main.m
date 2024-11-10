@@ -190,3 +190,23 @@ plot(Punti(:,1),CP,'LineWidth',2)
 
 legend("XFOIL","HessSmith")
 
+
+figure
+plot(Punti(1:49,1),CP(1:49))
+hold on
+plot(Punti(49:end,1),CP(49:end))
+legend("Ventre","Dorso")
+
+step = -diff(Punti(1:51,1));
+step = [step; step(end)];
+
+CL = sum(step'.*(CP(1:51)-CP(end:-1:51)));
+
+arm = Chord/4-(Punti(1:51,1)+Punti(2:52,1))./2 ;
+
+CM = sum(arm'.*(step'.*(CP(1:51)-CP(end:-1:51))));
+
+disp(["CL : " , num2str(CL)])
+disp(["CM : " , num2str(CM)])
+
+
