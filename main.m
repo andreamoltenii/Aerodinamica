@@ -38,6 +38,9 @@ y = flipud(Corpo.y);
 Corpo.x = x.*Chord;
 Corpo.y = y.*Chord;
 
+
+
+
 figure;
 plot(x, y, 'o-')
 hold on
@@ -149,7 +152,7 @@ for i = 1 : length(Centro(:,1))
     for j = 1 : length(Centro(:,1))
         U(:,i) = U(:,i) + Soluzione(j).*ViSorgente(Punti(i,:)',Estremo_1(j,:)',Estremo_2(j,:)',[L2G_TransfMatrix(j,1,1) , L2G_TransfMatrix(j,1,2); L2G_TransfMatrix(j,2,1) , L2G_TransfMatrix(j,2,2)],[G2L_TransfMatrix(j,1,1) , G2L_TransfMatrix(j,1,2); G2L_TransfMatrix(j,2,1) , G2L_TransfMatrix(j,2,2)])+Soluzione(end).*ViVortice(Punti(i,:)',Estremo_1(j,:)',Estremo_2(j,:)',[L2G_TransfMatrix(j,1,1) , L2G_TransfMatrix(j,1,2); L2G_TransfMatrix(j,2,1) , L2G_TransfMatrix(j,2,2)],[G2L_TransfMatrix(j,1,1) , G2L_TransfMatrix(j,1,2); G2L_TransfMatrix(j,2,1) , G2L_TransfMatrix(j,2,2)]);
     end
-    quiver(Punti(i,1),Punti(i,2),U(1,i),U(2,i))
+    %quiver(Punti(i,1),Punti(i,2),U(1,i),U(2,i))
 end
 
 
@@ -197,12 +200,12 @@ hold on
 plot(Punti(49:end,1),CP(49:end))
 legend("Ventre","Dorso")
 
-step = -diff(Punti(1:51,1));
-step = [step; step(end)];
+step = Estremo_1(1:51,1)-Estremo_2(1:51,1);
+
 
 CL = sum(step'.*(CP(1:51)-CP(end:-1:51)));
 
-arm = Chord/4-(Punti(1:51,1)+Punti(2:52,1))./2 ;
+arm = Chord/4-Centro(1:51,1) ;
 
 CM = sum(arm'.*(step'.*(CP(1:51)-CP(end:-1:51))));
 
