@@ -9,7 +9,7 @@ addpath mat_functions
 %% Input
 
 U_inf = 1;  % Velocità all'infinito [m/s]
-alpha = 2;   % Angolo di incidenza [°]
+alpha = 4;   % Angolo di incidenza [°]
 U_inf_x = U_inf * cos(deg2rad(alpha));
 U_inf_y = U_inf * sin(deg2rad(alpha));
 
@@ -19,9 +19,9 @@ U_inf_normal = U_inf_normal ./ norm(U_inf_normal);
 
 TestCase = 0;
 
-CodiceProfilo = '0012';
+NomeProfilo = 'E63';
 Chord = 1;
-NPannelli = 101;
+
 
 LE_X_Position = 0;
 LE_Y_Position = 0;
@@ -31,13 +31,13 @@ LE_Y_Position = 0;
 % numero profilo:
 % [x,y]=createProfile(CodiceProfilo,NPannelli,Chord);
 
-Corpo = importXfoilProfile(strcat('NACA_', CodiceProfilo, '.dat'));
+Corpo = importXfoilProfile(strcat(NomeProfilo,'.dat'));
 % Prima flippa i vettori
 x = flipud(Corpo.x);
 y = flipud(Corpo.y);
 Corpo.x = x.*Chord;
 Corpo.y = y.*Chord;
-
+NPannelli = length(x)-1;
 
 
 
