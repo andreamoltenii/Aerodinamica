@@ -204,13 +204,13 @@ legend("Ventre","Dorso")
 
 % CL Dalla circolazione
 
-CL_1 = -2*sum(lunghezza.*Soluzione(102))/(norm(U_inf));
+CL_1 = 2*sum(lunghezza.*Soluzione(end))/(norm(U_inf));
 
 % CL integrando CP
 
 U_inf_normal_CL = repmat(U_inf_normal,1,length(Normale));
 
-CL_2 = sum(lunghezza.*CP.*dot(Normale',U_inf_normal_CL))/Chord;
+CL_2 = -sum(lunghezza.*CP.*dot(Normale',U_inf_normal_CL))/Chord;
 
 % CM 
 Centro = [Centro,zeros(length(Centro),1)];
@@ -223,4 +223,7 @@ CM = sum(lunghezza.*CP.*dot(cross(Centro-[0.25,0,0],Normale)',z'));
 disp(["CL CP: " num2str(CL_1)])
 disp(["CL GAMMA: ", num2str(CL_2)])
 disp(["CM: ", num2str(CM)] )
+
+
+
 
