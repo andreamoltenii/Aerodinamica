@@ -145,7 +145,7 @@ Soluzione = linsolve(matriceA,TermineNoto);
 
 
 %% Calcolo del cp e della velocità sui pannelli
-U = repmat(U_inf,1,length(Centro));
+U = repmat(U_inf,1,length(Cent));
 Punti = Centro;
 
 for i = 1 : length(Centro(:,1))
@@ -193,12 +193,11 @@ plot(Punti(:,1),CP,'LineWidth',2)
 
 legend("XFOIL","HessSmith")
 
-[~, i] = min(Punti(:,1));
 
 figure
-plot(Punti(1:i,1),-CP(1:i))
+plot(Punti(1:49,1),CP(1:49))
 hold on
-plot(Punti(i:end,1),-CP(i:end))
+plot(Punti(49:end,1),CP(49:end))
 legend("Ventre","Dorso")
 
 
