@@ -9,7 +9,7 @@ addpath mat_functions
 %% Input
 
 U_inf = 1;  % Velocità all'infinito [m/s]
-alpha = 4;   % Angolo di incidenza [°]
+alpha = 3;   % Angolo di incidenza [°]
 U_inf_x = U_inf * cos(deg2rad(alpha));
 U_inf_y = U_inf * sin(deg2rad(alpha));
 
@@ -19,7 +19,7 @@ U_inf_normal = U_inf_normal ./ norm(U_inf_normal);
 
 TestCase = 0;
 
-NomeProfilo = 'E63';
+NomeProfilo = 'NACA_6409';
 Chord = 1;
 
 

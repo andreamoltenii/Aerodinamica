@@ -1,10 +1,11 @@
 clear;
 clc;
+close all;
 
 addpath functions
 
 NACA = '6409';
-alpha_vett = 1:0.5:5;
+alpha_vett = 3:0.1:4;
 n = length(alpha_vett);
 numNodes = 160;
 Cp_fileName = 'Cp.dat'; 
@@ -12,7 +13,7 @@ Cp_fileName = 'Cp.dat';
 cp_struct = cell(n, 2);
 d2_struct = cell(n, 1);
 
-n_points_d2 = 5; % numero  di punti da interpolare per calcolare la derivata seconda
+n_points_d2 = 10; % numero  di punti da interpolare per calcolare la derivata seconda
 
 %%
 
@@ -35,7 +36,7 @@ for i = 1:n
     
     fclose(fid);
     
-    xfoil_path = fullfile('..', 'xfoil.exe');
+    xfoil_path = fullfile('XFOIL\xfoil.exe');
     cmd = [xfoil_path, ' < xfoil_input.txt > output.txt'];
     system(cmd);
     
