@@ -9,7 +9,7 @@ addpath mat_functions
 %% Input
 
 U_inf = 1;  % Velocità all'infinito [m/s]
-alpha = 3;   % Angolo di incidenza [°]
+alpha = 5;   % Angolo di incidenza [°]
 U_inf_x = U_inf * cos(deg2rad(alpha));
 U_inf_y = U_inf * sin(deg2rad(alpha));
 
@@ -19,7 +19,7 @@ U_inf_normal = U_inf_normal ./ norm(U_inf_normal);
 
 TestCase = 0;
 
-NomeProfilo = 'NACA_6409';
+NomeProfilo = 'NACA_0012';
 Chord = 1;
 
 
@@ -152,7 +152,6 @@ for i = 1 : length(Centro(:,1))
     for j = 1 : length(Centro(:,1))
         U(:,i) = U(:,i) + Soluzione(j).*ViSorgente(Punti(i,:)',Estremo_1(j,:)',Estremo_2(j,:)',[L2G_TransfMatrix(j,1,1) , L2G_TransfMatrix(j,1,2); L2G_TransfMatrix(j,2,1) , L2G_TransfMatrix(j,2,2)],[G2L_TransfMatrix(j,1,1) , G2L_TransfMatrix(j,1,2); G2L_TransfMatrix(j,2,1) , G2L_TransfMatrix(j,2,2)])+Soluzione(end).*ViVortice(Punti(i,:)',Estremo_1(j,:)',Estremo_2(j,:)',[L2G_TransfMatrix(j,1,1) , L2G_TransfMatrix(j,1,2); L2G_TransfMatrix(j,2,1) , L2G_TransfMatrix(j,2,2)],[G2L_TransfMatrix(j,1,1) , G2L_TransfMatrix(j,1,2); G2L_TransfMatrix(j,2,1) , G2L_TransfMatrix(j,2,2)]);
     end
-    %quiver(Punti(i,1),Punti(i,2),U(1,i),U(2,i))
 end
 
 
@@ -225,5 +224,33 @@ disp(["CL GAMMA: ", num2str(CL_2)])
 disp(["CM: ", num2str(CM)] )
 
 
+%% Streamlines 
+
+x_points = linspace(-1,2,1001);
+y_points = linspace(-1,1,1001);
+u = zeros(length(x_points),length(y_points));
+v = zeros(length(x_points),length(y_points));
+u_norm = zeros(length(x_points),length(y_points));
+Cp = zeros(length(x_points),length(y_points));
+
+for i = 1 : length(x_points)
+     for j = 1 : length(y_points)
+        if ~(inpolygon(x_points(i),y_points(j),x,y))
+            U = U_inf;
+            for m = 1 : length(Centro(:,1))
+                 U = U + Soluzione(m).*ViSorgente([x_points(i);y_points(j)],Estremo_1(m,:)',Estremo_2(m,:)',[L2G_TransfMatrix(m,1,1) , L2G_TransfMatrix(m,1,2); L2G_TransfMatrix(m,2,1) , L2G_TransfMatrix(m,2,2)],[G2L_TransfMatrix(m,1,1) , G2L_TransfMatrix(m,1,2); G2L_TransfMatrix(m,2,1) , G2L_TransfMatrix(m,2,2)])+Soluzione(end).*ViVortice([x_points(i);y_points(j)],Estremo_1(m,:)',Estremo_2(m,:)',[L2G_TransfMatrix(m,1,1) , L2G_TransfMatrix(m,1,2); L2G_TransfMatrix(m,2,1) , L2G_TransfMatrix(m,2,2)],[G2L_TransfMatrix(m,1,1) , G2L_TransfMatrix(m,1,2); G2L_TransfMatrix(m,2,1) , G2L_TransfMatrix(m,2,2)]);
+                 u(i,j)=U(1);
+                 v(i,j)=U(2);
+                 u_norm(i,j)=norm(U);
+                 Cp(i,j) = 1 - norm(U)/norm(U_inf);
+            end
+        end
+     end
+end
 
 
+figure
+plot(x, y)
+hold on
+contourf(x_points,y_points,Cp',100,'LineStyle','None')
+streamslice(x_points,y_points,u',v',10,'noarrows');
